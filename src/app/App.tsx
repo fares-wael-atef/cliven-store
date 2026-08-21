@@ -1274,7 +1274,7 @@ export default function App() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
               {ALL_PRODUCTS.slice(0, 4).map((product) => (
                 <ProductCard
                   key={product.id}
@@ -1282,6 +1282,18 @@ export default function App() {
                   onSelectProduct={setSelectedProduct}
                 />
               ))}
+            </div>
+
+            {/* Mobile View All Link */}
+            <div className="mt-6 flex justify-start md:hidden">
+              <button
+                onClick={() => setActivePage("shop")}
+                className="flex items-center gap-1.5 text-xs font-bold tracking-[0.2em] text-black hover:text-[#e8111a] transition-colors uppercase cursor-pointer"
+                style={{ fontFamily: "Space Mono, monospace" }}
+              >
+                <span>VIEW ALL</span>
+                <ChevronRight size={14} />
+              </button>
             </div>
           </section>
 
@@ -1427,7 +1439,7 @@ export default function App() {
           </div>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -1545,7 +1557,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {ALL_PRODUCTS.filter((p) => p.isBestSeller).map((product) => (
               <ProductCard
                 key={product.id}
