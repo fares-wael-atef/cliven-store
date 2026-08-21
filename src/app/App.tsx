@@ -620,68 +620,68 @@ function ProductModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8"
-      style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(8px)" }}
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6"
+      style={{ background: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)" }}
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-4xl bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-2xl text-black max-h-[92vh] flex flex-col md:flex-row"
+        className="relative w-full max-w-4xl bg-white border border-zinc-200 rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl text-black max-h-[92vh] sm:max-h-[90vh] flex flex-col md:flex-row animate-fadeIn"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-30 w-10 h-10 rounded-full bg-zinc-100 hover:bg-black hover:text-white text-zinc-700 flex items-center justify-center transition-all shadow-md cursor-pointer border border-zinc-200"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-zinc-100/90 hover:bg-black hover:text-white text-zinc-700 flex items-center justify-center transition-all shadow-md cursor-pointer border border-zinc-200"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
         {/* Left Column: Main Image & Color Options */}
-        <div className="w-full md:w-1/2 p-5 sm:p-6 flex flex-col items-center justify-between bg-zinc-50 border-b md:border-b-0 md:border-r border-zinc-200">
-          <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-white border border-zinc-200 shadow-sm mb-4">
+        <div className="w-full md:w-1/2 p-4 sm:p-6 flex flex-col items-center bg-zinc-50 border-b md:border-b-0 md:border-r border-zinc-200 shrink-0">
+          <div className="relative w-full max-w-[200px] sm:max-w-none aspect-[3/4] max-h-[220px] sm:max-h-none rounded-xl overflow-hidden bg-white border border-zinc-200 shadow-sm mb-3">
             <img
               src={activeImg}
               alt={product.name}
               className="w-full h-full object-cover object-top transition-all duration-300"
             />
-            <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#e8111a] text-white text-[11px] font-bold tracking-wider rounded uppercase">
+            <div className="absolute top-2 left-2 px-2 py-0.5 bg-[#e8111a] text-white text-[10px] font-bold tracking-wider rounded uppercase">
               {product.tag}
             </div>
           </div>
 
-          {/* Colorway Options Below Photo */}
+          {/* Colorway Options */}
           <div className="w-full">
             <span
-              className="text-[11px] font-bold text-zinc-600 tracking-[0.2em] uppercase block mb-2"
+              className="text-[10px] sm:text-[11px] font-bold text-zinc-600 tracking-[0.2em] uppercase block mb-1.5"
               style={{ fontFamily: "Space Mono, monospace" }}
             >
-              AVAILABLE COLORWAYS:
+              AVAILABLE COLORWAYS ({variants.length}):
             </span>
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-2">
               {variants.map((v, i) => {
                 const isSelected = activeVariantIndex === i;
                 return (
                   <button
                     key={i}
                     onClick={() => selectVariant(v, i)}
-                    className={`rounded-xl p-2 border transition-all text-left flex items-center gap-2.5 cursor-pointer ${
+                    className={`rounded-lg p-1.5 border transition-all text-left flex items-center gap-2 cursor-pointer ${
                       isSelected
-                        ? "bg-white border-2 border-black shadow-md ring-1 ring-black/10"
+                        ? "bg-white border-2 border-black shadow-sm ring-1 ring-black/10"
                         : "bg-white/80 border-zinc-200 hover:border-zinc-400 opacity-80 hover:opacity-100"
                     }`}
                   >
-                    <div className="w-10 h-12 rounded-lg overflow-hidden shrink-0 border border-zinc-200 bg-zinc-100">
+                    <div className="w-8 h-10 rounded overflow-hidden shrink-0 border border-zinc-200 bg-zinc-100">
                       <img src={v.img} alt={v.label} className="w-full h-full object-cover" />
                     </div>
                     <div className="overflow-hidden">
-                      <div className="flex items-center gap-1.5 mb-0.5">
+                      <div className="flex items-center gap-1 mb-0.5">
                         <span
-                          className="w-2.5 h-2.5 rounded-full shrink-0 border border-black/20"
+                          className="w-2 h-2 rounded-full shrink-0 border border-black/20"
                           style={{ background: v.hex }}
                         />
-                        <span className="text-xs font-bold truncate uppercase">{v.label}</span>
+                        <span className="text-[11px] font-bold truncate uppercase">{v.label}</span>
                       </div>
-                      <p className="text-[10px] text-zinc-500 truncate font-mono">{v.colorName}</p>
+                      <p className="text-[9px] text-zinc-500 truncate font-mono">{v.colorName}</p>
                     </div>
                   </button>
                 );
@@ -691,34 +691,34 @@ function ProductModal({
         </div>
 
         {/* Right Column: Specs & Add to Bag */}
-        <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-white">
-          <div className="space-y-6">
+        <div className="w-full md:w-1/2 p-4 sm:p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-white">
+          <div className="space-y-4 sm:space-y-5">
             <div>
               <span
-                className="text-[#e8111a] text-xs font-bold tracking-[0.3em] uppercase block mb-1"
+                className="text-[#e8111a] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase block mb-1"
                 style={{ fontFamily: "Space Mono, monospace" }}
               >
                 {product.category}
               </span>
               <h2
-                className="text-2xl md:text-3xl font-bold uppercase leading-tight text-black"
+                className="text-xl sm:text-2xl md:text-3xl font-bold uppercase leading-tight text-black"
                 style={{ fontFamily: "Rajdhani, sans-serif" }}
               >
                 {product.name}
               </h2>
 
               {/* Enhanced Price Line */}
-              <div className="flex flex-wrap items-center gap-3 mt-3">
-                <div className="flex items-baseline gap-2.5">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2">
+                <div className="flex items-baseline gap-2">
                   <span
-                    className="text-3xl font-extrabold text-black tracking-tight"
+                    className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight"
                     style={{ fontFamily: "Rajdhani, sans-serif" }}
                   >
                     {product.price.toLocaleString()} EGP
                   </span>
                   {product.originalPrice && (
                     <span
-                      className="text-base text-zinc-400 line-through font-semibold"
+                      className="text-sm sm:text-base text-zinc-400 line-through font-semibold"
                       style={{ fontFamily: "Rajdhani, sans-serif" }}
                     >
                       {product.originalPrice.toLocaleString()} EGP
@@ -726,38 +726,38 @@ function ProductModal({
                   )}
                 </div>
                 {product.originalPrice && (
-                  <span className="text-[11px] font-bold text-[#e8111a] bg-red-50 border border-red-200 px-2 py-0.5 rounded font-mono">
+                  <span className="text-[10px] font-bold text-[#e8111a] bg-red-50 border border-red-200 px-1.5 py-0.5 rounded font-mono">
                     SAVE {(product.originalPrice - product.price).toLocaleString()} EGP
                   </span>
                 )}
-                <span className="text-xs text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1.5">
+                <span className="text-[10px] sm:text-xs text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
                   Only {product.stockLeft} left
                 </span>
               </div>
             </div>
 
-            <p className="text-sm text-zinc-600 leading-relaxed">{product.description}</p>
+            <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">{product.description}</p>
 
             {/* Size Selector */}
             <div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex justify-between items-center mb-1.5">
                 <label
-                  className="text-xs text-zinc-700 font-bold tracking-wider uppercase block"
+                  className="text-[11px] sm:text-xs text-zinc-700 font-bold tracking-wider uppercase block"
                   style={{ fontFamily: "Space Mono, monospace" }}
                 >
                   Size (Streetwear Fit):
                 </label>
-                <span className="text-[11px] text-zinc-500 underline cursor-pointer">
+                <span className="text-[10px] sm:text-[11px] text-zinc-500 underline cursor-pointer">
                   Size Guide
                 </span>
               </div>
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
                 {sizes.map((s) => (
                   <button
                     key={s}
                     onClick={() => setSelectedSize(s)}
-                    className={`py-3 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
+                    className={`py-2.5 sm:py-3 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
                       selectedSize === s
                         ? "bg-black text-white border-black shadow-sm"
                         : "bg-zinc-50 text-zinc-700 border-zinc-200 hover:border-black"
@@ -771,28 +771,28 @@ function ProductModal({
             </div>
 
             {/* Garment Specifications */}
-            <div className="pt-4 border-t border-zinc-100 space-y-1.5">
+            <div className="pt-3 border-t border-zinc-100 space-y-1">
               <span
-                className="text-[11px] text-zinc-700 font-bold tracking-wider uppercase block mb-1"
+                className="text-[10px] sm:text-[11px] text-zinc-700 font-bold tracking-wider uppercase block mb-1"
                 style={{ fontFamily: "Space Mono, monospace" }}
               >
                 Garment Specifications:
               </span>
               {product.details.map((d, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs text-zinc-600">
-                  <Check size={13} className="text-[#e8111a] shrink-0" />
+                <div key={i} className="flex items-center gap-1.5 text-[11px] sm:text-xs text-zinc-600">
+                  <Check size={12} className="text-[#e8111a] shrink-0" />
                   <span>{d}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Add to Bag Action */}
-          <div className="pt-6 mt-6 border-t border-zinc-100">
+          {/* Add to Bag Action (Sticky on mobile) */}
+          <div className="pt-4 mt-4 border-t border-zinc-100 sticky bottom-0 bg-white/95 backdrop-blur-sm">
             <button
               onClick={handleAdd}
               disabled={added}
-              className="w-full py-4 bg-[#e8111a] hover:bg-black text-white font-bold tracking-[0.2em] text-xs uppercase rounded-xl transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-3.5 sm:py-4 bg-[#e8111a] hover:bg-black text-white font-bold tracking-[0.2em] text-xs uppercase rounded-xl transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
               style={{ fontFamily: "Space Mono, monospace" }}
             >
               {added ? (
