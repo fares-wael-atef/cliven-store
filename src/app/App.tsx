@@ -27,6 +27,8 @@ import {
   User,
   PackageCheck,
   CheckCircle2,
+  Home,
+  ShoppingBag,
 } from "lucide-react";
 
 // Asset imports
@@ -1115,18 +1117,19 @@ export default function App() {
                   </p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-4 mb-10">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
                   <button
                     onClick={() => setSelectedProduct(heroOutfits[heroIndex].product)}
-                    className="px-8 py-4 bg-[#e8111a] hover:bg-black text-white font-bold tracking-[0.25em] text-xs uppercase rounded-xl transition-all duration-200 shadow-md flex items-center gap-2.5 cursor-pointer"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-[#e8111a] hover:bg-black text-white font-bold tracking-[0.15em] text-xs uppercase rounded-xl transition-all duration-200 shadow-md flex items-center justify-center gap-2.5 cursor-pointer whitespace-nowrap"
                     style={{ fontFamily: "Space Mono, monospace" }}
                   >
-                    SHOP THIS PIECE (LE {heroOutfits[heroIndex].price.toFixed(2)}) <ArrowRight size={16} />
+                    <span>SHOP THIS PIECE — {heroOutfits[heroIndex].price.toLocaleString()} EGP</span>
+                    <ArrowRight size={15} />
                   </button>
 
                   <button
                     onClick={() => setActivePage("shop")}
-                    className="px-8 py-4 border border-zinc-300 bg-white text-black hover:bg-black hover:text-white hover:border-black font-bold tracking-[0.25em] text-xs uppercase rounded-xl transition-all duration-200 cursor-pointer shadow-sm"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 border border-zinc-300 bg-white text-black hover:bg-black hover:text-white hover:border-black font-bold tracking-[0.15em] text-xs uppercase rounded-xl transition-all duration-200 cursor-pointer shadow-sm text-center"
                     style={{ fontFamily: "Space Mono, monospace" }}
                   >
                     VIEW ALL DROPS
@@ -1141,7 +1144,7 @@ export default function App() {
                   >
                     FEATURED LOOKS ({heroIndex + 1} / {heroOutfits.length}):
                   </p>
-                  <div className="grid grid-cols-4 gap-2.5 sm:gap-3">
+                  <div className="grid grid-cols-4 gap-2 sm:gap-3">
                     {heroOutfits.map((outfit, i) => {
                       const isActive = heroIndex === i;
                       return (
@@ -1163,13 +1166,13 @@ export default function App() {
                               />
                             </div>
                             <p
-                              className="text-[10px] font-bold text-black truncate px-1"
+                              className="text-[10px] font-bold text-black truncate px-0.5"
                               style={{ fontFamily: "Rajdhani, sans-serif" }}
                             >
                               {outfit.title}
                             </p>
-                            <p className="text-[10px] text-[#e8111a] font-mono px-1 font-bold">
-                              LE {outfit.price}
+                            <p className="text-[10px] text-[#e8111a] font-mono px-0.5 font-bold">
+                              {outfit.price.toLocaleString()} EGP
                             </p>
                           </div>
                         </button>
@@ -1861,19 +1864,19 @@ export default function App() {
         onSelectProduct={(p) => setSelectedProduct(p)}
       />
 
-      {/* ── Fixed Mobile Bottom Action Bar (App Style) ── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-zinc-200 py-2.5 px-4 flex items-center justify-around shadow-2xl safe-area-pb">
+      {/* ── Fixed Mobile Bottom Action Bar (Professional Streetwear App Style) ── */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-zinc-200 py-2 px-3 flex items-center justify-around shadow-2xl safe-area-pb">
         <button
           onClick={() => {
             setActivePage("home");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          className={`flex flex-col items-center gap-0.5 py-1 px-3 cursor-pointer transition-colors ${
+          className={`flex flex-col items-center gap-1 py-1 px-3 cursor-pointer transition-colors ${
             activePage === "home" ? "text-[#e8111a]" : "text-zinc-500 hover:text-black"
           }`}
         >
-          <span className="text-base font-bold">⚡</span>
-          <span className="text-[9px] font-bold tracking-wider uppercase font-mono">HOME</span>
+          <Home size={19} strokeWidth={activePage === "home" ? 2.5 : 1.8} />
+          <span className="text-[9px] font-bold tracking-widest uppercase font-mono">HOME</span>
         </button>
 
         <button
@@ -1881,35 +1884,35 @@ export default function App() {
             setActivePage("shop");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          className={`flex flex-col items-center gap-0.5 py-1 px-3 cursor-pointer transition-colors ${
+          className={`flex flex-col items-center gap-1 py-1 px-3 cursor-pointer transition-colors ${
             activePage === "shop" ? "text-[#e8111a]" : "text-zinc-500 hover:text-black"
           }`}
         >
-          <span className="text-base font-bold">🛍️</span>
-          <span className="text-[9px] font-bold tracking-wider uppercase font-mono">SHOP</span>
+          <ShoppingBag size={19} strokeWidth={activePage === "shop" ? 2.5 : 1.8} />
+          <span className="text-[9px] font-bold tracking-widest uppercase font-mono">SHOP</span>
         </button>
 
         <button
           onClick={() => setSearchOpen(true)}
-          className="flex flex-col items-center gap-0.5 py-1 px-3 text-zinc-500 hover:text-black cursor-pointer transition-colors"
+          className="flex flex-col items-center gap-1 py-1 px-3 text-zinc-500 hover:text-black cursor-pointer transition-colors"
         >
-          <Search size={17} />
-          <span className="text-[9px] font-bold tracking-wider uppercase font-mono">SEARCH</span>
+          <Search size={19} strokeWidth={1.8} />
+          <span className="text-[9px] font-bold tracking-widest uppercase font-mono">SEARCH</span>
         </button>
 
         <button
           onClick={() => setCartOpen(true)}
-          className="relative flex flex-col items-center gap-0.5 py-1 px-3 text-zinc-500 hover:text-black cursor-pointer transition-colors"
+          className="relative flex flex-col items-center gap-1 py-1 px-3 text-zinc-500 hover:text-black cursor-pointer transition-colors"
         >
           <div className="relative">
-            <ShoppingCart size={17} />
+            <ShoppingCart size={19} strokeWidth={1.8} />
             {cartCount > 0 && (
               <span className="absolute -top-1.5 -right-2.5 w-4 h-4 rounded-full bg-[#e8111a] text-white flex items-center justify-center text-[9px] font-bold">
                 {cartCount}
               </span>
             )}
           </div>
-          <span className="text-[9px] font-bold tracking-wider uppercase font-mono">CART</span>
+          <span className="text-[9px] font-bold tracking-widest uppercase font-mono">CART</span>
         </button>
       </div>
     </div>
