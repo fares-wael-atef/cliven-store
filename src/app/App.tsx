@@ -486,90 +486,77 @@ function ProductCard({
 
   return (
     <div className="group flex flex-col transition-all duration-300">
-      {/* ── Image Box with Badge & Hover "Choose Options" Overlay ── */}
-      <div className="relative aspect-[3/4] bg-[#f2f2f2] rounded-xl overflow-hidden mb-3.5 cursor-pointer">
+      {/* ── Image Box with Top Badge & Bottom QUICK ADD Bar (Matching Reference) ── */}
+      <div
+        onClick={() => onSelectProduct(product)}
+        className="relative aspect-[3/4] bg-[#f2f2f2] rounded-lg sm:rounded-xl overflow-hidden mb-2.5 cursor-pointer border border-zinc-200/80 shadow-sm"
+      >
         <img
           src={activeImg}
           alt={product.name}
-          onClick={() => onSelectProduct(product)}
           className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* Tag / Discount Badge (Top Left - High Contrast Red) */}
-        <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#e8111a] text-white text-[11px] font-bold tracking-wider rounded uppercase shadow-sm">
-          {product.tag}
+        {/* Red Badge Top Left (Matching Reference) */}
+        <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-[#e8111a] text-white text-[10px] sm:text-[11px] font-black tracking-widest uppercase rounded-[2px] shadow-sm">
+          {product.tag.includes("OFF") ? product.tag : "NEW"}
         </div>
 
-        {/* Hover Action Pill Button (Sliding Up from Bottom, Exactly Like User's Reference) */}
-        <div className="absolute bottom-3 left-3 right-3 transition-all duration-300 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
-          <button
-            onClick={() => onSelectProduct(product)}
-            className="w-full py-3.5 bg-white/95 hover:bg-black hover:text-white text-black font-bold tracking-[0.2em] text-xs uppercase rounded-xl transition-all duration-200 shadow-xl backdrop-blur-md cursor-pointer border border-black/10 flex items-center justify-center gap-2"
-            style={{ fontFamily: "Space Mono, monospace" }}
-          >
-            CHOOSE OPTIONS
-          </button>
+        {/* Docked Black QUICK ADD Bar at Bottom of Image (Matching Reference) */}
+        <div className="absolute bottom-0 left-0 right-0 bg-black/95 hover:bg-[#e8111a] text-white py-2 sm:py-2.5 text-center text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5 backdrop-blur-sm">
+          <span>QUICK ADD</span>
         </div>
       </div>
 
-      {/* ── Color Swatches Immediately Under The Image (As in Reference) ── */}
-      <div className="flex items-center gap-2 mb-2.5 px-0.5">
-        {product.colors.map((c) => {
-          const isSelected = selectedColor === c;
-          const hex = COLORS[c] || "#000000";
-
-          return (
-            <button
-              key={c}
-              onClick={() => {
-                setSelectedColor(c);
-                const matched = product.variants.find((v) => v.colorKey === c);
-                if (matched) setActiveImg(matched.img);
-              }}
-              title={c}
-              className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
-                isSelected ? "ring-2 ring-black ring-offset-2 scale-110" : "hover:scale-110"
-              }`}
-            >
-              <span
-                className="w-full h-full rounded-full border border-black/20"
-                style={{ background: hex }}
-              />
-            </button>
-          );
-        })}
-      </div>
-
-      {/* ── Product Title ── */}
-      <h3
-        onClick={() => onSelectProduct(product)}
-        className="text-xs sm:text-sm font-bold tracking-wider text-black uppercase leading-tight line-clamp-1 mb-1.5 cursor-pointer hover:text-[#e8111a] transition-colors"
-        style={{ fontFamily: "Space Mono, monospace" }}
-      >
-        {product.name}
-      </h3>
-
-      {/* ── Pricing Line (Egyptian Pounds) ── */}
-      <div className="flex items-center gap-2 text-xs sm:text-sm">
-        {product.originalPrice && (
-          <span className="text-zinc-400 line-through font-medium">
-            {product.originalPrice.toLocaleString()} EGP
-          </span>
-        )}
-        <span className="text-[#e8111a] font-bold">
+      {/* ── Info Row: Title on Left, Price on Right (Matching Reference) ── */}
+      <div className="flex items-start justify-between gap-1.5 mb-1 px-0.5">
+        <h3
+          onClick={() => onSelectProduct(product)}
+          className="text-xs sm:text-sm font-bold tracking-tight text-black uppercase leading-tight line-clamp-1 cursor-pointer hover:text-[#e8111a] transition-colors"
+          style={{ fontFamily: "Space Mono, monospace" }}
+        >
+          {product.name}
+        </h3>
+        <span
+          className="text-xs sm:text-sm font-bold text-black font-mono shrink-0"
+        >
           {product.price.toLocaleString()} EGP
         </span>
       </div>
 
-      {/* ── Mobile Direct Quick Action Button ── */}
-      <button
-        onClick={() => onSelectProduct(product)}
-        className="mt-2.5 w-full py-2 bg-zinc-900 hover:bg-[#e8111a] text-white text-[10px] font-bold tracking-widest uppercase rounded-lg sm:hidden flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-        style={{ fontFamily: "Space Mono, monospace" }}
-      >
-        <span>SELECT OPTIONS</span>
-        <ArrowRight size={12} />
-      </button>
+      {/* ── Color Swatches & Color Name (Matching Reference) ── */}
+      <div className="flex items-center gap-1.5 px-0.5">
+        <div className="flex items-center gap-1">
+          {product.colors.map((c) => {
+            const isSelected = selectedColor === c;
+            const hex = COLORS[c] || "#000000";
+
+            return (
+              <button
+                key={c}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedColor(c);
+                  const matched = product.variants.find((v) => v.colorKey === c);
+                  if (matched) setActiveImg(matched.img);
+                }}
+                title={c}
+                className={`w-3.5 h-3.5 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                  isSelected ? "ring-1.5 ring-black ring-offset-1 scale-110" : "hover:scale-110 opacity-80 hover:opacity-100"
+                }`}
+              >
+                <span
+                  className="w-full h-full rounded-full border border-black/20"
+                  style={{ background: hex }}
+                />
+              </button>
+            );
+          })}
+        </div>
+        <span className="text-[10px] sm:text-[11px] text-zinc-500 font-medium capitalize truncate">
+          {selectedColor}
+        </span>
+      </div>
     </div>
   );
 }
@@ -1077,31 +1064,31 @@ export default function App() {
         <main className="flex-1">
           {/* ── Fashion Editorial Hero (Clean Light Aesthetics with Auto-Swap) ── */}
           <section
-            className="relative w-full bg-[#f8f8f8] border-b border-zinc-200 py-12 lg:py-16 overflow-hidden"
+            className="relative w-full bg-[#f8f8f8] border-b border-zinc-200 py-7 sm:py-12 lg:py-16 overflow-hidden"
             onMouseEnter={() => setIsHeroPaused(true)}
             onMouseLeave={() => setIsHeroPaused(false)}
           >
-            <div className="max-w-screen-xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="max-w-screen-xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 items-center">
               {/* Left Column */}
               <div className="lg:col-span-7 flex flex-col justify-center">
-                <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 bg-white border border-zinc-300 rounded-full w-fit mb-5 shadow-sm">
+                <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 bg-white border border-zinc-300 rounded-full w-fit mb-3 sm:mb-5 shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-[#e8111a] animate-pulse" />
                   <span
-                    className="text-[#e8111a] text-xs font-bold tracking-[0.25em] uppercase"
+                    className="text-[#e8111a] text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase"
                     style={{ fontFamily: "Space Mono, monospace" }}
                   >
                     {heroOutfits[heroIndex].tag}
                   </span>
                   <span className="text-zinc-300">|</span>
-                  <span className="text-zinc-700 text-xs font-mono font-bold">
+                  <span className="text-zinc-700 text-[10px] sm:text-xs font-mono font-bold">
                     {heroOutfits[heroIndex].edition}
                   </span>
                 </div>
 
-                {/* Locked Height Title Container */}
-                <div className="h-[120px] sm:h-[140px] md:h-[155px] flex flex-col justify-end mb-4 overflow-hidden">
+                {/* Locked Height Responsive Title Container */}
+                <div className="h-[80px] sm:h-[120px] md:h-[145px] flex flex-col justify-end mb-3 sm:mb-4 overflow-hidden">
                   <h1
-                    className="text-[clamp(2.6rem,5.2vw,5.2rem)] leading-[0.9] font-normal uppercase text-black transition-all duration-300"
+                    className="text-[clamp(1.9rem,6.5vw,4.8rem)] leading-[0.92] font-normal uppercase text-black transition-all duration-300"
                     style={{ fontFamily: "Anton, sans-serif", letterSpacing: "0.01em" }}
                   >
                     {heroOutfits[heroIndex].title}
@@ -1110,26 +1097,26 @@ export default function App() {
                   </h1>
                 </div>
 
-                {/* Locked Height Description Container */}
-                <div className="h-[52px] sm:h-[58px] flex items-start mb-8 overflow-hidden">
-                  <p className="text-zinc-600 text-sm sm:text-base md:text-lg max-w-xl leading-relaxed transition-all duration-300 line-clamp-2">
+                {/* Locked Height Responsive Description Container */}
+                <div className="h-[44px] sm:h-[54px] flex items-start mb-5 sm:mb-8 overflow-hidden">
+                  <p className="text-zinc-600 text-xs sm:text-sm md:text-base max-w-xl leading-relaxed transition-all duration-300 line-clamp-2">
                     {heroOutfits[heroIndex].desc}
                   </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 mb-6 sm:mb-10">
                   <button
                     onClick={() => setSelectedProduct(heroOutfits[heroIndex].product)}
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-[#e8111a] hover:bg-black text-white font-bold tracking-[0.15em] text-xs uppercase rounded-xl transition-all duration-200 shadow-md flex items-center justify-center gap-2.5 cursor-pointer whitespace-nowrap"
+                    className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 bg-[#e8111a] hover:bg-black text-white font-bold tracking-[0.15em] text-xs uppercase rounded-xl transition-all duration-200 shadow-md flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
                     style={{ fontFamily: "Space Mono, monospace" }}
                   >
                     <span>SHOP THIS PIECE — {heroOutfits[heroIndex].price.toLocaleString()} EGP</span>
-                    <ArrowRight size={15} />
+                    <ArrowRight size={14} />
                   </button>
 
                   <button
                     onClick={() => setActivePage("shop")}
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 border border-zinc-300 bg-white text-black hover:bg-black hover:text-white hover:border-black font-bold tracking-[0.15em] text-xs uppercase rounded-xl transition-all duration-200 cursor-pointer shadow-sm text-center"
+                    className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 border border-zinc-300 bg-white text-black hover:bg-black hover:text-white hover:border-black font-bold tracking-[0.15em] text-xs uppercase rounded-xl transition-all duration-200 cursor-pointer shadow-sm text-center"
                     style={{ fontFamily: "Space Mono, monospace" }}
                   >
                     VIEW ALL DROPS
@@ -1137,28 +1124,28 @@ export default function App() {
                 </div>
 
                 {/* Outfit Selector Cards */}
-                <div className="pt-6 border-t border-zinc-200">
+                <div className="pt-4 sm:pt-6 border-t border-zinc-200">
                   <p
-                    className="text-xs text-zinc-500 font-bold tracking-[0.25em] uppercase mb-3"
+                    className="text-[10px] sm:text-xs text-zinc-500 font-bold tracking-[0.2em] uppercase mb-2.5 sm:mb-3"
                     style={{ fontFamily: "Space Mono, monospace" }}
                   >
                     FEATURED LOOKS ({heroIndex + 1} / {heroOutfits.length}):
                   </p>
-                  <div className="grid grid-cols-4 gap-2 sm:gap-3">
+                  <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
                     {heroOutfits.map((outfit, i) => {
                       const isActive = heroIndex === i;
                       return (
                         <button
                           key={i}
                           onClick={() => setHeroIndex(i)}
-                          className={`rounded-xl overflow-hidden p-1.5 border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                          className={`rounded-xl overflow-hidden p-1 sm:p-1.5 border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between ${
                             isActive
-                              ? "border-black bg-white ring-2 ring-black shadow-lg scale-102"
+                              ? "border-black bg-white ring-2 ring-black shadow-md scale-102"
                               : "border-zinc-200 bg-white/70 hover:border-zinc-400 opacity-75 hover:opacity-100"
                           }`}
                         >
                           <div>
-                            <div className="aspect-[3/4] w-full rounded-lg overflow-hidden mb-1.5 bg-zinc-100">
+                            <div className="aspect-[3/4] w-full rounded-lg overflow-hidden mb-1 bg-zinc-100">
                               <img
                                 src={outfit.img}
                                 alt={outfit.title}
@@ -1166,12 +1153,12 @@ export default function App() {
                               />
                             </div>
                             <p
-                              className="text-[10px] font-bold text-black truncate px-0.5"
+                              className="text-[9px] sm:text-[10px] font-bold text-black truncate px-0.5"
                               style={{ fontFamily: "Rajdhani, sans-serif" }}
                             >
                               {outfit.title}
                             </p>
-                            <p className="text-[10px] text-[#e8111a] font-mono px-0.5 font-bold">
+                            <p className="text-[9px] sm:text-[10px] text-[#e8111a] font-mono px-0.5 font-bold">
                               {outfit.price.toLocaleString()} EGP
                             </p>
                           </div>
@@ -1184,32 +1171,31 @@ export default function App() {
 
               {/* Right Column: Fixed Height Framed Model Portrait */}
               <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                <div className="relative w-full max-w-[420px] aspect-[3/4] rounded-2xl overflow-hidden border border-zinc-300 shadow-xl bg-white group shrink-0">
+                <div className="relative w-full max-w-[340px] sm:max-w-[420px] aspect-[3/4] rounded-2xl overflow-hidden border border-zinc-300 shadow-xl bg-white group shrink-0">
                   <img
                     key={heroIndex}
                     src={heroOutfits[heroIndex].img}
                     alt="Cilven Featured Editorial"
                     className="w-full h-full object-cover object-top transition-all duration-700 animate-fadeIn"
                   />
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-black text-white text-[11px] font-bold tracking-widest rounded uppercase shadow-sm">
+                  <div className="absolute top-3 sm:top-4 left-3 sm:left-4 px-2.5 sm:px-3 py-1 bg-black text-white text-[10px] sm:text-[11px] font-bold tracking-widest rounded uppercase shadow-sm">
                     {heroOutfits[heroIndex].badge}
                   </div>
 
-                  <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-white/95 backdrop-blur-md border border-zinc-200 shadow-lg flex items-center justify-between">
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 p-3 sm:p-4 rounded-xl bg-white/95 backdrop-blur-md border border-zinc-200 shadow-lg flex items-center justify-between">
                     <div>
                       <p
-                        className="text-[10px] text-[#e8111a] font-bold tracking-widest uppercase"
-                        style={{ fontFamily: "Space Mono, monospace" }}
+                        className="text-[10px] text-[#e8111a] font-bold tracking-widest uppercase font-mono"
                       >
-                        LE {heroOutfits[heroIndex].price.toFixed(2)}
+                        {heroOutfits[heroIndex].price.toLocaleString()} EGP
                       </p>
-                      <h4 className="text-base font-bold text-black uppercase" style={{ fontFamily: "Rajdhani, sans-serif" }}>
+                      <h4 className="text-sm sm:text-base font-bold text-black uppercase" style={{ fontFamily: "Rajdhani, sans-serif" }}>
                         {heroOutfits[heroIndex].title}
                       </h4>
                     </div>
                     <button
                       onClick={() => setSelectedProduct(heroOutfits[heroIndex].product)}
-                      className="px-3.5 py-2 bg-black text-white hover:bg-[#e8111a] rounded-lg text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer"
+                      className="px-3 py-1.5 sm:px-3.5 sm:py-2 bg-black text-white hover:bg-[#e8111a] rounded-lg text-[10px] sm:text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer"
                       style={{ fontFamily: "Space Mono, monospace" }}
                     >
                       QUICK VIEW
